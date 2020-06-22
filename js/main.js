@@ -1,41 +1,61 @@
 "use strict";
 
+const data = {
+    payload: {
+        EmailAccountType: "",
+        EmailAddress: "",
+        EmailAccountDescription: "",
 
+        IncomingMailServerAuthentication: "",
+        IncomingMailServerHostName: "",
+        IncomingMailServerPortNumber: null,
+        IncomingMailServerUsername: "",
+        IncomingMailServerUseSSL: null,
 
+        OutgoingMailServerAuthentication: "",
+        OutgoingMailServerHostName: "",
+        OutgoingMailServerPortNumber: null,
+        OutgoingMailServerUsername: "",
+        OutgoingMailServerUseSSL: null,
+        OutgoingPasswordSameAsIncomingPassword: null,
 
-let payloadForm = {
-    EmailAccountType: {type: "string", choices: ["EmailTypeIMAP"]},
-    EmailAddress: {type: "string"},
-    EmailAccountDescription: {type: "string"},
+        PayloadDescription: "",
+        PayloadDisplayName: "",
+        PayloadIdentifier: "",
+        PayloadType: "com.apple.mail.managed",
+        PayloadUUID: generateUUID,
+        PayloadVersion: 1,
+    },
+    payloadPlaceholders: {
+        EmailAddress: "john@example.com",
+        EmailAccountDescription: "Example email account",
 
-    IncomingMailServerAuthentication: {type: "string", choices: ["EmailAuthPassword"]},
-    IncomingMailServerHostName: {type: "string"},
-    IncomingMailServerPortNumber: {type: "number"},
-    IncomingMailServerUsername: {type: "string"},
-    IncomingMailServerUseSSL: {type: "boolean"},
+        IncomingMailServerHostName: "imap.example.com",
+        IncomingMailServerPortNumber: 993,
+        IncomingMailServerUsername: "john@example.com",
 
-    OutgoingMailServerAuthentication: {type: "string", choices: ["EmailAuthPassword"]},
-    OutgoingMailServerHostName: {type: "string"},
-    OutgoingMailServerPortNumber: {type: "number"},
-    OutgoingMailServerUsername: {type: "string"},
-    OutgoingMailServerUseSSL: {type: "boolean"},
-    OutgoingPasswordSameAsIncomingPassword: {type: "boolean"},
+        OutgoingMailServerHostName: "smtp.example.com",
+        OutgoingMailServerPortNumber: 465,
+        OutgoingMailServerUsername: "john@example.com",
 
-    PayloadDescription: {type: "string"},
-    PayloadDisplayName: {type: "string"},
-    PayloadIdentifier: {type: "string"},
-    PayloadType: {type: "string", constant: true, value: "com.apple.mail.managed"},
-    PayloadUUID: {type: "function", constant: true, value: generateUUID},
-    PayloadVersion: {type: "number", constant: true, value: 1},
-}
-
-let containerForm = {
-    PayloadDescription: {type: "string"},
-    PayloadDisplayName: {type: "string"},
-    PayloadIdentifier: {type: "string"},
-    PayloadType: {type: "string", constant: true, value: "Configuration"},
-    PayloadUUID: {type: "function", constant: true, value: generateUUID},
-    PayloadVersion: {type: "number", constant: true, value: 1},
+        PayloadDescription: "Email configuration profile",
+        PayloadDisplayName: "Display name",
+        PayloadIdentifier: "com.apple.dns.reverse",
+    },
+    container: {
+        PayloadDescription: "",
+        PayloadDisplayName: "",
+        PayloadIdentifier: "",
+        PayloadType: "Configuration",
+        PayloadUUID: generateUUID,
+        PayloadVersion: 1,
+    },
+    containerPlaceholders: {
+        PayloadDescription: "Email configuration profile",
+        PayloadDisplayName: "Display name",
+        PayloadIdentifier: "com.apple.dns.reverse",
+    },
+    generated: false,
 }
 
 function generateUUID() {
@@ -45,7 +65,7 @@ function generateUUID() {
 }
 
 function convertKeyValueToXml(xmlDoc, key, value) {
-    let keyElement = xmlDoc.createElement("key");
+    const keyElement = xmlDoc.createElement("key");
     keyElement.innerHTML = key;
 
     let valueElementTag = null;
@@ -64,138 +84,55 @@ function convertKeyValueToXml(xmlDoc, key, value) {
     if (valueElementTag === null) {
         throw Error("Value type not recognized")
     }
-    let valueElement = xmlDoc.createElement(valueElementTag);
+    const valueElement = xmlDoc.createElement(valueElementTag);
     if (typeof value === "number" || typeof value === "string"){
         valueElement.innerHTML = value;
     }
     return [keyElement, valueElement];
 }
 
-function generateProfile(event) {
-    let payload = {
-        EmailAccountType: "EmailTypeIMAP",
-        EmailAddress: "gabriel@augendre.info",
-        EmailAccountDescription: "Migadu",
+const app = new Vue({
+    el: '#app',
+    data: data,
+    computed: {
+        generatedProfile: function () {
+            const template = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
+                "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n" +
+                "<plist version='1.0'><dict></dict></plist>"
+            const parser = new DOMParser();
+            const xmlDoc = parser.parseFromString(template, "application/xml");
+            const dict = xmlDoc.getElementsByTagName("dict")[0];
 
-        IncomingMailServerAuthentication: "EmailAuthPassword",
-        IncomingMailServerHostName: "imap.migadu.com",
-        IncomingMailServerPortNumber: 993,
-        IncomingMailServerUsername: "gabriel@augendre.info",
-        IncomingMailServerUseSSL: true,
+            const contentElement = xmlDoc.createElement("key");
+            contentElement.innerHTML = "PayloadContent";
+            dict.appendChild(contentElement);
+            const arrayElement = xmlDoc.createElement("array");
+            dict.appendChild(arrayElement);
+            const contentDict = xmlDoc.createElement("dict");
+            arrayElement.appendChild(contentDict);
 
-        OutgoingMailServerAuthentication: "EmailAuthPassword",
-        OutgoingMailServerHostName: "smtp.migadu.com",
-        OutgoingMailServerPortNumber: 465,
-        OutgoingMailServerUsername: "gabriel@augendre.info",
-        OutgoingMailServerUseSSL: true,
-        OutgoingPasswordSameAsIncomingPassword: true,
+            for (const [key, value] of Object.entries(this.payload)) {
+                const [keyElement, valueElement] = convertKeyValueToXml(xmlDoc, key, value);
+                contentDict.appendChild(keyElement);
+                contentDict.appendChild(valueElement);
+            }
 
-        PayloadDisplayName: "Migadu",
-        PayloadIdentifier: "info.augendre.mail.config.migadu",
-        PayloadType: "com.apple.mail.managed",
-        PayloadUUID: generateUUID,
-        PayloadVersion: 1,
+            for (const [key, value] of Object.entries(this.container)) {
+                const [keyElement, valueElement] = convertKeyValueToXml(xmlDoc, key, value);
+                dict.appendChild(keyElement);
+                dict.appendChild(valueElement);
+            }
+
+            const serializer = new XMLSerializer();
+            return serializer.serializeToString(xmlDoc);
+        },
+        generatedProfileLink: function () {
+            const xmlString = this.generatedProfile;
+            return 'data:application/xml;charset=utf-8,' + encodeURIComponent(xmlString);
+        },
+        downloadFileName: function() {
+            return `${this.payload.EmailAddress}.mobileconfig`;
+        },
     }
-
-    let container = {
-        PayloadDescription: "Migadu email configuration profile",
-        PayloadDisplayName: "Migadu",
-        PayloadIdentifier: "info.augendre.mail.config.migadu",
-        PayloadType: "Configuration",
-        PayloadUUID: generateUUID,
-        PayloadVersion: 1,
-    }
-    let downloadLink = document.getElementById("download-link");
-    if (downloadLink) {
-        document.body.removeChild(downloadLink);
-    }
-
-    let template = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
-        "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n" +
-        "<plist version='1.0'><dict></dict></plist>"
-    let parser = new DOMParser();
-    let xmlDoc = parser.parseFromString(template, "application/xml");
-    let dict = xmlDoc.getElementsByTagName("dict")[0];
-
-    let contentElement = xmlDoc.createElement("key");
-    contentElement.innerHTML = "PayloadContent";
-    dict.appendChild(contentElement);
-    let arrayElement = xmlDoc.createElement("array");
-    dict.appendChild(arrayElement);
-    let contentDict = xmlDoc.createElement("dict");
-    arrayElement.appendChild(contentDict);
-
-    for (let [key, value] of Object.entries(payload)) {
-        let [keyElement, valueElement] = convertKeyValueToXml(xmlDoc, key, value);
-        contentDict.appendChild(keyElement);
-        contentDict.appendChild(valueElement);
-    }
-
-    for (let [key, value] of Object.entries(container)) {
-        let [keyElement, valueElement] = convertKeyValueToXml(xmlDoc, key, value);
-        dict.appendChild(keyElement);
-        dict.appendChild(valueElement);
-    }
-
-
-    var serializer = new XMLSerializer();
-    var xmlString = serializer.serializeToString(xmlDoc);
-
-    let area = document.getElementById("profile");
-    area.value = xmlString;
-
-    let link = document.createElement('a');
-    link.setAttribute("id", "download-link")
-    link.setAttribute('href', 'data:application/xml;charset=utf-8,' + encodeURIComponent(xmlString));
-    link.setAttribute('download', `${payload.EmailAddress}.mobileconfig`);
-    link.innerHTML = "Download profile";
-    document.body.appendChild(link);
-}
-
-function getElemFromConfig(key, value, prefix) {
-    const identifier = `${prefix}-${key}`;
-    let input = document.createElement("input");
-    input.setAttribute("type", value.type);
-    input.setAttribute("id", identifier);
-    input.setAttribute("name", identifier);
-
-    let defaultValue = value.value;
-    if (typeof defaultValue === "function") {
-        defaultValue = defaultValue();
-    }
-    if (defaultValue) {
-        input.value = defaultValue;
-    }
-    if (value.constant) {
-        input.setAttribute("disabled", "disabled");
-    }
-
-    let label = document.createElement("label");
-    label.setAttribute("for", identifier);
-    label.innerHTML = key;
-
-    const p = document.createElement("p");
-    p.appendChild(label);
-    p.appendChild(input);
-    return p;
-}
-
-document.addEventListener("DOMContentLoaded", function(){
-    let form = document.getElementById("profile-form");
-    let button = document.querySelector("form#profile-form button[type='button']");
-    let title = document.createElement("h2");
-    title.innerHTML = "Container"
-    form.insertBefore(title, button);
-    for (let [key, value] of Object.entries(containerForm)) {
-        let line = getElemFromConfig(key, value, "container");
-        form.insertBefore(line, button);
-    }
-    title = document.createElement("h2");
-    title.innerHTML = "Payload"
-    form.insertBefore(title, button);
-    for (let [key, value] of Object.entries(payloadForm)) {
-        let line = getElemFromConfig(key, value, "payload");
-        form.insertBefore(line, button);
-    }
-});
+})
 

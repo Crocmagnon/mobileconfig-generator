@@ -1,0 +1,6 @@
+body {
+    font-family: "JetBrains Mono", "Roboto Mono", "Menlo", monospace;
+}
+#profile {
+    white-space: pre-wrap;
+}

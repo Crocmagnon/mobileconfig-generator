@@ -6,16 +6,116 @@
     <title></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 </head>
 
 <body>
-<form id="profile-form">
-    <button type="button" onclick="generateProfile()">Generate</button>
-    <p>
-        <label for="profile">Generated profile</label>
-        <textarea name="profile" id="profile" cols="80" rows="15"></textarea>
+<div id="app">
+    <h1>1. Fill in the forms for your email configuration profile</h1>
+    <p>Documentation can be found
+        <a href="https://developer.apple.com/documentation/devicemanagement/configuring_multiple_devices_using_profiles">here</a>
+        for common fields and
+        <a href="https://developer.apple.com/documentation/devicemanagement/mail">here</a>
+        for email specific fields.
     </p>
-</form>
+    <div id="profile">
+    &lt;?xml version="1.0" encoding="UTF-8"?&gt;
+    &lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+    &lt;plist version='1.0'&gt;
+        &lt;dict&gt;
+            &lt;key&gt;PayloadContent&lt;/key&gt;
+            &lt;array&gt;
+                &lt;dict&gt;
+                    &lt;key&gt;EmailAccountType&lt;/key&gt;
+                    &lt;string&gt;<select v-model="payload.EmailAccountType">
+                                       <option value="" disabled>Select...</option>
+                                       <option>EmailTypeIMAP</option>
+                                       <option>EmailTypePOP</option>
+                                   </select>&lt;/string&gt;
+                    &lt;key&gt;EmailAddress&lt;/key&gt;
+                    &lt;string&gt;<input type="email" v-model="payload.EmailAddress" v-bind:placeholder="payloadPlaceholders.EmailAddress">&lt;/string&gt;
+                    &lt;key&gt;EmailAccountDescription&lt;/key&gt;
+                    &lt;string&gt;<input type="text" v-model="payload.EmailAccountDescription" v-bind:placeholder="payloadPlaceholders.EmailAccountDescription">&lt;/string&gt;
+
+                    &lt;!-- Incoming --&gt;
+                    &lt;key&gt;IncomingMailServerAuthentication&lt;/key&gt;
+                    &lt;string&gt;<select v-model="payload.IncomingMailServerAuthentication">
+                                      <option value="" disabled>Select...</option>
+                                      <option>EmailAuthNone</option>
+                                      <option>EmailAuthPassword</option>
+                                      <option>EmailAuthCRAMMD5</option>
+                                      <option>EmailAuthNTLM</option>
+                                      <option>EmailAuthHTTPMD5</option>
+                                  </select>&lt;/string&gt;
+                    &lt;key&gt;IncomingMailServerHostName&lt;/key&gt;
+                    &lt;string&gt;<input type="text" v-model="payload.IncomingMailServerHostName" v-bind:placeholder="payloadPlaceholders.IncomingMailServerHostName">&lt;/string&gt;
+                    &lt;key&gt;IncomingMailServerPortNumber&lt;/key&gt;
+                    &lt;integer&gt;<input type="number" v-model="payload.IncomingMailServerPortNumber" v-bind:placeholder="payloadPlaceholders.IncomingMailServerPortNumber">&lt;/integer&gt;
+                    &lt;key&gt;IncomingMailServerUsername&lt;/key&gt;
+                    &lt;string&gt;<input type="text" v-model="payload.IncomingMailServerUsername" v-bind:placeholder="payloadPlaceholders.IncomingMailServerUsername">&lt;/string&gt;
+                    &lt;key&gt;IncomingMailServerUseSSL&lt;/key&gt;
+                    &lt;<input type="checkbox" v-model="payload.IncomingMailServerUseSSL">/&gt;
+
+                    &lt;!-- Outgoing --&gt;
+                    &lt;key&gt;OutgoingMailServerAuthentication&lt;/key&gt;
+                    &lt;string&gt;<select v-model="payload.OutgoingMailServerAuthentication">
+                                      <option value="" disabled>Select...</option>
+                                      <option>EmailAuthNone</option>
+                                      <option>EmailAuthPassword</option>
+                                      <option>EmailAuthCRAMMD5</option>
+                                      <option>EmailAuthNTLM</option>
+                                      <option>EmailAuthHTTPMD5</option>
+                                  </select>&lt;/string&gt;
+                    &lt;key&gt;OutgoingMailServerHostName&lt;/key&gt;
+                    &lt;string&gt;<input type="text" v-model="payload.OutgoingMailServerHostName" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerHostName">&lt;/string&gt;
+                    &lt;key&gt;OutgoingMailServerPortNumber&lt;/key&gt;
+                    &lt;integer&gt;<input type="number" v-model="payload.OutgoingMailServerPortNumber" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerPortNumber">&lt;/integer&gt;
+                    &lt;key&gt;OutgoingMailServerUsername&lt;/key&gt;
+                    &lt;string&gt;<input type="text" v-model="payload.OutgoingMailServerUsername" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerUsername">&lt;/string&gt;
+                    &lt;key&gt;OutgoingMailServerUseSSL&lt;/key&gt;
+                    &lt;<input type="checkbox" v-model="payload.OutgoingMailServerUseSSL">/&gt;
+                    &lt;key&gt;OutgoingPasswordSameAsIncomingPassword&lt;/key&gt;
+                    &lt;<input type="checkbox" v-model="payload.OutgoingPasswordSameAsIncomingPassword">/&gt;
+
+                    &lt;!-- Common keys --&gt;
+                    &lt;key&gt;PayloadDisplayName&lt;/key&gt;
+                    &lt;string&gt;<input type="text" v-model="payload.PayloadDisplayName" v-bind:placeholder="payloadPlaceholders.PayloadDisplayName">&lt;/string&gt;
+                    &lt;key&gt;PayloadDescription&lt;/key&gt;
+                    &lt;string&gt;<input type="text" v-model="payload.PayloadDescription" v-bind:placeholder="payloadPlaceholders.PayloadDescription">&lt;/string&gt;
+                    &lt;key&gt;PayloadIdentifier&lt;/key&gt;
+                    &lt;string&gt;<input type="text" v-model="payload.PayloadIdentifier" v-bind:placeholder="payloadPlaceholders.PayloadIdentifier">&lt;/string&gt;
+                    &lt;key&gt;PayloadType&lt;/key&gt;
+                    &lt;string&gt;{{ payload.PayloadType }}&lt;/string&gt;
+                    &lt;key&gt;PayloadUUID&lt;/key&gt;
+                    &lt;string&gt;{{ payload.PayloadUUID() }}&lt;/string&gt;
+                    &lt;key&gt;PayloadVersion&lt;/key&gt;
+                    &lt;integer&gt;{{ payload.PayloadVersion }}&lt;/integer&gt;
+                &lt;/dict&gt;
+            &lt;/array&gt;
+
+            &lt;!-- Common keys --&gt;
+            &lt;key&gt;PayloadDisplayName&lt;/key&gt;
+            &lt;string&gt;<input type="text" v-model="container.PayloadDisplayName" v-bind:placeholder="containerPlaceholders.PayloadDisplayName">&lt;/string&gt;
+            &lt;key&gt;PayloadDescription&lt;/key&gt;
+            &lt;string&gt;<input type="text" v-model="container.PayloadDescription" v-bind:placeholder="containerPlaceholders.PayloadDescription">&lt;/string&gt;
+            &lt;key&gt;PayloadIdentifier&lt;/key&gt;
+            &lt;string&gt;<input type="text" v-model="container.PayloadIdentifier" v-bind:placeholder="containerPlaceholders.PayloadIdentifier">&lt;/string&gt;
+            &lt;key&gt;PayloadType&lt;/key&gt;
+            &lt;string&gt;{{ container.PayloadType }}&lt;/string&gt;
+            &lt;key&gt;PayloadUUID&lt;/key&gt;
+            &lt;string&gt;{{ container.PayloadUUID() }}&lt;/string&gt;
+            &lt;key&gt;PayloadVersion&lt;/key&gt;
+            &lt;integer&gt;{{ container.PayloadVersion }}&lt;/integer&gt;
+        &lt;/dict&gt;
+    &lt;/plist&gt;
+    </div>
+
+    <h1>2. Download your profile</h1>
+    <a v-bind:href="generatedProfileLink" v-bind:download="downloadFileName">Download</a>
+
+    <h1>3. Or copy/paste</h1>
+    <textarea rows="30" cols="80">{{ generatedProfile }}</textarea>
+</div>
 <script src="js/main.js"></script>
 </body>
 
