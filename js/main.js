@@ -8,16 +8,16 @@ const data = {
 
         IncomingMailServerAuthentication: "",
         IncomingMailServerHostName: "",
-        IncomingMailServerPortNumber: null,
+        IncomingMailServerPortNumber: 993,
         IncomingMailServerUsername: "",
-        IncomingMailServerUseSSL: null,
+        IncomingMailServerUseSSL: false,
 
         OutgoingMailServerAuthentication: "",
         OutgoingMailServerHostName: "",
-        OutgoingMailServerPortNumber: null,
+        OutgoingMailServerPortNumber: 465,
         OutgoingMailServerUsername: "",
-        OutgoingMailServerUseSSL: null,
-        OutgoingPasswordSameAsIncomingPassword: null,
+        OutgoingMailServerUseSSL: false,
+        OutgoingPasswordSameAsIncomingPassword: false,
 
         PayloadDescription: "",
         PayloadDisplayName: "",
@@ -98,29 +98,23 @@ const app = new Vue({
         generatedProfile: function () {
             const template = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<!DOCTYPE plist PUBLIC \"-//Apple//DTD PLIST 1.0//EN\" \"http://www.apple.com/DTDs/PropertyList-1.0.dtd\">\n" +
-                "<plist version='1.0'><dict></dict></plist>"
+                "<plist version='1.0'><dict><key>PayloadContent</key><array><dict></dict></array></dict></plist>"
+
             const parser = new DOMParser();
             const xmlDoc = parser.parseFromString(template, "application/xml");
             const dict = xmlDoc.getElementsByTagName("dict")[0];
-
-            const contentElement = xmlDoc.createElement("key");
-            contentElement.innerHTML = "PayloadContent";
-            dict.appendChild(contentElement);
-            const arrayElement = xmlDoc.createElement("array");
-            dict.appendChild(arrayElement);
-            const contentDict = xmlDoc.createElement("dict");
-            arrayElement.appendChild(contentDict);
-
-            for (const [key, value] of Object.entries(this.payload)) {
-                const [keyElement, valueElement] = convertKeyValueToXml(xmlDoc, key, value);
-                contentDict.appendChild(keyElement);
-                contentDict.appendChild(valueElement);
-            }
 
             for (const [key, value] of Object.entries(this.container)) {
                 const [keyElement, valueElement] = convertKeyValueToXml(xmlDoc, key, value);
                 dict.appendChild(keyElement);
                 dict.appendChild(valueElement);
+            }
+
+            const contentDict = xmlDoc.getElementsByTagName("dict")[1];
+            for (const [key, value] of Object.entries(this.payload)) {
+                const [keyElement, valueElement] = convertKeyValueToXml(xmlDoc, key, value);
+                contentDict.appendChild(keyElement);
+                contentDict.appendChild(valueElement);
             }
 
             const serializer = new XMLSerializer();
