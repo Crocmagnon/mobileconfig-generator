@@ -1,0 +1,7 @@
+image: debian/buster
+secrets:
+  - 5c948915-48c2-4542-8fc1-a5676f4d7126  # ssh key
+  - 29bc352f-0807-46e9-a4ef-2f869f94afa3  # ssh config
+tasks:
+  - deploy: |
+      ssh blog -o StrictHostKeyChecking=no "git -C /srv/mobileconfig-generator/ pull"
