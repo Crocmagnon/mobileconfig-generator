@@ -6,7 +6,6 @@
     <title>Mobileconfig Generator</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/main.css">
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.min.js"></script>
 </head>
 
 <body>
@@ -33,15 +32,15 @@
             &lt;key&gt;PayloadContent&lt;/key&gt;
             &lt;array&gt;
                 &lt;dict&gt;
-                    &lt;key&gt;EmailAccountType&lt;/key&gt;
+                    &lt;key&gt;<strong>EmailAccountType</strong>&lt;/key&gt;
                     &lt;string&gt;<select v-model="payload.EmailAccountType">
                                        <option value="" disabled>Select...</option>
                                        <option>EmailTypeIMAP</option>
                                        <option>EmailTypePOP</option>
                                    </select>&lt;/string&gt;
-                    &lt;key&gt;EmailAddress&lt;/key&gt;
+                    &lt;key&gt;<strong>EmailAddress</strong>&lt;/key&gt;
                     &lt;string&gt;<input type="email" v-model="payload.EmailAddress" v-bind:placeholder="payloadPlaceholders.EmailAddress">&lt;/string&gt;
-                    &lt;key&gt;EmailAccountDescription&lt;/key&gt;
+                    &lt;key&gt;<strong>EmailAccountDescription</strong>&lt;/key&gt;
                     &lt;string&gt;<input type="text" v-model="payload.EmailAccountDescription" v-bind:placeholder="payloadPlaceholders.EmailAccountDescription">&lt;/string&gt;
 
                     &lt;!-- Incoming --&gt;
@@ -123,6 +122,7 @@
     <h1>3. Or copy/paste</h1>
     <textarea rows="30" cols="80">{{ generatedProfile }}</textarea>
 </div>
+<script src="js/vue.min.js"></script>
 <script src="js/main.js"></script>
 </body>
 
