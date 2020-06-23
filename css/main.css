@@ -1,6 +1,20 @@
+:root {
+    --main-color: #212121;
+    --light-color: #737373;
+    --background-color: #fdfdfd;
+}
+
 body {
     font-family: "JetBrains Mono", "Roboto Mono", "Menlo", monospace;
+    color: var(--main-color);
+    background-color: var(--background-color);
 }
+
 #profile {
     white-space: pre-wrap;
+    color: var(--light-color);
+}
+
+#profile strong {
+    color: var(--main-color);
 }

@@ -44,7 +44,7 @@
                     &lt;string&gt;<input type="text" v-model="payload.EmailAccountDescription" v-bind:placeholder="payloadPlaceholders.EmailAccountDescription">&lt;/string&gt;
 
                     &lt;!-- Incoming --&gt;
-                    &lt;key&gt;IncomingMailServerAuthentication&lt;/key&gt;
+                    &lt;key&gt;<strong>IncomingMailServerAuthentication</strong>&lt;/key&gt;
                     &lt;string&gt;<select v-model="payload.IncomingMailServerAuthentication">
                                       <option value="" disabled>Select...</option>
                                       <option>EmailAuthNone</option>
@@ -53,17 +53,17 @@
                                       <option>EmailAuthNTLM</option>
                                       <option>EmailAuthHTTPMD5</option>
                                   </select>&lt;/string&gt;
-                    &lt;key&gt;IncomingMailServerHostName&lt;/key&gt;
+                    &lt;key&gt;<strong>IncomingMailServerHostName</strong>&lt;/key&gt;
                     &lt;string&gt;<input type="text" v-model="payload.IncomingMailServerHostName" v-bind:placeholder="payloadPlaceholders.IncomingMailServerHostName">&lt;/string&gt;
-                    &lt;key&gt;IncomingMailServerPortNumber&lt;/key&gt;
+                    &lt;key&gt;<strong>IncomingMailServerPortNumber</strong>&lt;/key&gt;
                     &lt;integer&gt;<input type="number" v-model="payload.IncomingMailServerPortNumber" v-bind:placeholder="payloadPlaceholders.IncomingMailServerPortNumber">&lt;/integer&gt;
-                    &lt;key&gt;IncomingMailServerUsername&lt;/key&gt;
+                    &lt;key&gt;<strong>IncomingMailServerUsername</strong>&lt;/key&gt;
                     &lt;string&gt;<input type="text" v-model="payload.IncomingMailServerUsername" v-bind:placeholder="payloadPlaceholders.IncomingMailServerUsername">&lt;/string&gt;
-                    &lt;key&gt;IncomingMailServerUseSSL&lt;/key&gt;
+                    &lt;key&gt;<strong>IncomingMailServerUseSSL</strong>&lt;/key&gt;
                     &lt;<input type="checkbox" v-model="payload.IncomingMailServerUseSSL">/&gt;
 
                     &lt;!-- Outgoing --&gt;
-                    &lt;key&gt;OutgoingMailServerAuthentication&lt;/key&gt;
+                    &lt;key&gt;<strong>OutgoingMailServerAuthentication</strong>&lt;/key&gt;
                     &lt;string&gt;<select v-model="payload.OutgoingMailServerAuthentication">
                                       <option value="" disabled>Select...</option>
                                       <option>EmailAuthNone</option>
@@ -72,45 +72,45 @@
                                       <option>EmailAuthNTLM</option>
                                       <option>EmailAuthHTTPMD5</option>
                                   </select>&lt;/string&gt;
-                    &lt;key&gt;OutgoingMailServerHostName&lt;/key&gt;
+                    &lt;key&gt;<strong>OutgoingMailServerHostName</strong>&lt;/key&gt;
                     &lt;string&gt;<input type="text" v-model="payload.OutgoingMailServerHostName" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerHostName">&lt;/string&gt;
-                    &lt;key&gt;OutgoingMailServerPortNumber&lt;/key&gt;
+                    &lt;key&gt;<strong>OutgoingMailServerPortNumber</strong>&lt;/key&gt;
                     &lt;integer&gt;<input type="number" v-model="payload.OutgoingMailServerPortNumber" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerPortNumber">&lt;/integer&gt;
-                    &lt;key&gt;OutgoingMailServerUsername&lt;/key&gt;
+                    &lt;key&gt;<strong>OutgoingMailServerUsername</strong>&lt;/key&gt;
                     &lt;string&gt;<input type="text" v-model="payload.OutgoingMailServerUsername" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerUsername">&lt;/string&gt;
-                    &lt;key&gt;OutgoingMailServerUseSSL&lt;/key&gt;
+                    &lt;key&gt;<strong>OutgoingMailServerUseSSL</strong>&lt;/key&gt;
                     &lt;<input type="checkbox" v-model="payload.OutgoingMailServerUseSSL">/&gt;
-                    &lt;key&gt;OutgoingPasswordSameAsIncomingPassword&lt;/key&gt;
+                    &lt;key&gt;<strong>OutgoingPasswordSameAsIncomingPassword</strong>&lt;/key&gt;
                     &lt;<input type="checkbox" v-model="payload.OutgoingPasswordSameAsIncomingPassword">/&gt;
 
                     &lt;!-- Common keys --&gt;
-                    &lt;key&gt;PayloadDisplayName&lt;/key&gt;
+                    &lt;key&gt;<strong>PayloadDisplayName</strong>&lt;/key&gt;
                     &lt;string&gt;<input type="text" v-model="payload.PayloadDisplayName" v-bind:placeholder="payloadPlaceholders.PayloadDisplayName">&lt;/string&gt;
-                    &lt;key&gt;PayloadDescription&lt;/key&gt;
+                    &lt;key&gt;<strong>PayloadDescription</strong>&lt;/key&gt;
                     &lt;string&gt;<input type="text" v-model="payload.PayloadDescription" v-bind:placeholder="payloadPlaceholders.PayloadDescription">&lt;/string&gt;
-                    &lt;key&gt;PayloadIdentifier&lt;/key&gt;
+                    &lt;key&gt;<strong>PayloadIdentifier</strong>&lt;/key&gt;
                     &lt;string&gt;<input type="text" v-model="payload.PayloadIdentifier" v-bind:placeholder="payloadPlaceholders.PayloadIdentifier">&lt;/string&gt;
-                    &lt;key&gt;PayloadType&lt;/key&gt;
+                    &lt;key&gt;<strong>PayloadType</strong>&lt;/key&gt;
                     &lt;string&gt;{{ payload.PayloadType }}&lt;/string&gt;
-                    &lt;key&gt;PayloadUUID&lt;/key&gt;
+                    &lt;key&gt;<strong>PayloadUUID</strong>&lt;/key&gt;
                     &lt;string&gt;{{ payload.PayloadUUID() }}&lt;/string&gt;
-                    &lt;key&gt;PayloadVersion&lt;/key&gt;
+                    &lt;key&gt;<strong>PayloadVersion</strong>&lt;/key&gt;
                     &lt;integer&gt;{{ payload.PayloadVersion }}&lt;/integer&gt;
                 &lt;/dict&gt;
             &lt;/array&gt;
 
             &lt;!-- Common keys --&gt;
-            &lt;key&gt;PayloadDisplayName&lt;/key&gt;
+            &lt;key&gt;<strong>PayloadDisplayName</strong>&lt;/key&gt;
             &lt;string&gt;<input type="text" v-model="container.PayloadDisplayName" v-bind:placeholder="containerPlaceholders.PayloadDisplayName">&lt;/string&gt;
-            &lt;key&gt;PayloadDescription&lt;/key&gt;
+            &lt;key&gt;<strong>PayloadDescription</strong>&lt;/key&gt;
             &lt;string&gt;<input type="text" v-model="container.PayloadDescription" v-bind:placeholder="containerPlaceholders.PayloadDescription">&lt;/string&gt;
-            &lt;key&gt;PayloadIdentifier&lt;/key&gt;
+            &lt;key&gt;<strong>PayloadIdentifier</strong>&lt;/key&gt;
             &lt;string&gt;<input type="text" v-model="container.PayloadIdentifier" v-bind:placeholder="containerPlaceholders.PayloadIdentifier">&lt;/string&gt;
-            &lt;key&gt;PayloadType&lt;/key&gt;
+            &lt;key&gt;<strong>PayloadType</strong>&lt;/key&gt;
             &lt;string&gt;{{ container.PayloadType }}&lt;/string&gt;
-            &lt;key&gt;PayloadUUID&lt;/key&gt;
+            &lt;key&gt;<strong>PayloadUUID</strong>&lt;/key&gt;
             &lt;string&gt;{{ container.PayloadUUID() }}&lt;/string&gt;
-            &lt;key&gt;PayloadVersion&lt;/key&gt;
+            &lt;key&gt;<strong>PayloadVersion</strong>&lt;/key&gt;
             &lt;integer&gt;{{ container.PayloadVersion }}&lt;/integer&gt;
         &lt;/dict&gt;
     &lt;/plist&gt;
