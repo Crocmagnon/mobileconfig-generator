@@ -25,95 +25,137 @@
         <a href="https://git.augendre.info/gaugendre/mobileconfig-generator">here</a>.
     </p>
     <div id="profile">
-    &lt;?xml version="1.0" encoding="UTF-8"?&gt;
-    &lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
-    &lt;plist version='1.0'&gt;
-        &lt;dict&gt;
-            &lt;key&gt;PayloadContent&lt;/key&gt;
-            &lt;array&gt;
-                &lt;dict&gt;
-                    &lt;key&gt;<strong>EmailAccountType</strong>&lt;/key&gt;
-                    &lt;string&gt;<select v-model="payload.EmailAccountType">
-                                       <option value="" disabled>Select...</option>
-                                       <option>EmailTypeIMAP</option>
-                                       <option>EmailTypePOP</option>
-                                   </select>&lt;/string&gt;
-                    &lt;key&gt;<strong>EmailAddress</strong>&lt;/key&gt;
-                    &lt;string&gt;<input type="email" v-model="payload.EmailAddress" v-bind:placeholder="payloadPlaceholders.EmailAddress">&lt;/string&gt;
-                    &lt;key&gt;<strong>EmailAccountDescription</strong>&lt;/key&gt;
-                    &lt;string&gt;<input type="text" v-model="payload.EmailAccountDescription" v-bind:placeholder="payloadPlaceholders.EmailAccountDescription">&lt;/string&gt;
+        <h2>Account</h2>
+        <div class="form-row">
+            <label for="account-type">Email account type</label>
+            <select id="account-type" v-model="payload.EmailAccountType">
+                <option value="" disabled>Select...</option>
+                <option value="EmailTypeIMAP">IMAP</option>
+                <option value="EmailTypePOP">POP</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="email-address">Email address</label>
+            <input id="email-address" type="email" v-model="payload.EmailAddress" v-bind:placeholder="payloadPlaceholders.EmailAddress">
+        </div>
+        <div class="form-row">
+            <label for="account-description">Account description</label>
+            <input id="account-description" type="text" v-model="payload.EmailAccountDescription" v-bind:placeholder="payloadPlaceholders.EmailAccountDescription">
+        </div>
+        
+        <h2>Incoming mail server config</h2>
+        <div class="form-row">
+            <label for="inc-auth">Incoming mail server authentication</label>
+            <select id="inc-auth" v-model="payload.IncomingMailServerAuthentication">
+                <option value="" disabled>Select...</option>
+                <option value="EmailAuthNone">None</option>
+                <option value="EmailAuthPassword">Password</option>
+                <option value="EmailAuthCRAMMD5">CRAM MD5</option>
+                <option value="EmailAuthNTLM">NTLM</option>
+                <option value="EmailAuthHTTPMD5">HTTP MD5</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="inc-host">Incoming mail server host</label>
+            <input id="inc-host" type="text" v-model="payload.IncomingMailServerHostName" v-bind:placeholder="payloadPlaceholders.IncomingMailServerHostName">
+        </div>
+        <div class="form-row">
+            <label for="inc-port">Incoming mail server port</label>
+            <input id="inc-port" type="number" v-model="payload.IncomingMailServerPortNumber" v-bind:placeholder="payloadPlaceholders.IncomingMailServerPortNumber">
+        </div>
+        <div class="form-row">
+            <label for="inc-username">Incoming mail server username</label>
+            <input id="inc-username" type="text" v-model="payload.IncomingMailServerUsername" v-bind:placeholder="payloadPlaceholders.IncomingMailServerUsername">
+        </div>
+        <div class="form-row">
+            <label for="inc-ssl">Incoming mail server use SSL</label>
+            <input id="inc-ssl" type="checkbox" v-model="payload.IncomingMailServerUseSSL">
+        </div>
 
-                    &lt;!-- Incoming --&gt;
-                    &lt;key&gt;<strong>IncomingMailServerAuthentication</strong>&lt;/key&gt;
-                    &lt;string&gt;<select v-model="payload.IncomingMailServerAuthentication">
-                                      <option value="" disabled>Select...</option>
-                                      <option>EmailAuthNone</option>
-                                      <option>EmailAuthPassword</option>
-                                      <option>EmailAuthCRAMMD5</option>
-                                      <option>EmailAuthNTLM</option>
-                                      <option>EmailAuthHTTPMD5</option>
-                                  </select>&lt;/string&gt;
-                    &lt;key&gt;<strong>IncomingMailServerHostName</strong>&lt;/key&gt;
-                    &lt;string&gt;<input type="text" v-model="payload.IncomingMailServerHostName" v-bind:placeholder="payloadPlaceholders.IncomingMailServerHostName">&lt;/string&gt;
-                    &lt;key&gt;<strong>IncomingMailServerPortNumber</strong>&lt;/key&gt;
-                    &lt;integer&gt;<input type="number" v-model="payload.IncomingMailServerPortNumber" v-bind:placeholder="payloadPlaceholders.IncomingMailServerPortNumber">&lt;/integer&gt;
-                    &lt;key&gt;<strong>IncomingMailServerUsername</strong>&lt;/key&gt;
-                    &lt;string&gt;<input type="text" v-model="payload.IncomingMailServerUsername" v-bind:placeholder="payloadPlaceholders.IncomingMailServerUsername">&lt;/string&gt;
-                    &lt;key&gt;<strong>IncomingMailServerUseSSL</strong>&lt;/key&gt;
-                    &lt;<input type="checkbox" v-model="payload.IncomingMailServerUseSSL">/&gt;
+        <h2>Outgoing mail server config</h2>
+        <div class="form-row">
+            <label for="out-auth">Outgoing mail server authentication</label>
+            <select id="out-auth" v-model="payload.OutgoingMailServerAuthentication">
+                <option value="" disabled>Select...</option>
+                <option value="EmailAuthNone">None</option>
+                <option value="EmailAuthPassword">Password</option>
+                <option value="EmailAuthCRAMMD5">CRAM MD5</option>
+                <option value="EmailAuthNTLM">NTLM</option>
+                <option value="EmailAuthHTTPMD5">HTTP MD5</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="out-host">Outgoing mail server host</label>
+            <input id="out-host" type="text" v-model="payload.OutgoingMailServerHostName" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerHostName">
+        </div>
+        <div class="form-row">
+            <label for="out-port">Outgoing mail server port</label>
+            <input id="out-port" type="number" v-model="payload.OutgoingMailServerPortNumber" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerPortNumber">
+        </div>
+        <div class="form-row">
+            <label for="out-username">Outgoing mail server username</label>
+            <input id="out-username" type="text" v-model="payload.OutgoingMailServerUsername" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerUsername">
+        </div>
+        <div class="form-row">
+            <label for="out-ssl">Outgoing mail server use SSL</label>
+            <input id="out-ssl" type="checkbox" v-model="payload.OutgoingMailServerUseSSL">
+        </div>
+        <div class="form-row">
+            <label for="out-same-as-inc">Outgoing mail server password same as incoming</label>
+            <input id="out-same-as-inc" type="checkbox" v-model="payload.OutgoingPasswordSameAsIncomingPassword">
+        </div>
 
-                    &lt;!-- Outgoing --&gt;
-                    &lt;key&gt;<strong>OutgoingMailServerAuthentication</strong>&lt;/key&gt;
-                    &lt;string&gt;<select v-model="payload.OutgoingMailServerAuthentication">
-                                      <option value="" disabled>Select...</option>
-                                      <option>EmailAuthNone</option>
-                                      <option>EmailAuthPassword</option>
-                                      <option>EmailAuthCRAMMD5</option>
-                                      <option>EmailAuthNTLM</option>
-                                      <option>EmailAuthHTTPMD5</option>
-                                  </select>&lt;/string&gt;
-                    &lt;key&gt;<strong>OutgoingMailServerHostName</strong>&lt;/key&gt;
-                    &lt;string&gt;<input type="text" v-model="payload.OutgoingMailServerHostName" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerHostName">&lt;/string&gt;
-                    &lt;key&gt;<strong>OutgoingMailServerPortNumber</strong>&lt;/key&gt;
-                    &lt;integer&gt;<input type="number" v-model="payload.OutgoingMailServerPortNumber" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerPortNumber">&lt;/integer&gt;
-                    &lt;key&gt;<strong>OutgoingMailServerUsername</strong>&lt;/key&gt;
-                    &lt;string&gt;<input type="text" v-model="payload.OutgoingMailServerUsername" v-bind:placeholder="payloadPlaceholders.OutgoingMailServerUsername">&lt;/string&gt;
-                    &lt;key&gt;<strong>OutgoingMailServerUseSSL</strong>&lt;/key&gt;
-                    &lt;<input type="checkbox" v-model="payload.OutgoingMailServerUseSSL">/&gt;
-                    &lt;key&gt;<strong>OutgoingPasswordSameAsIncomingPassword</strong>&lt;/key&gt;
-                    &lt;<input type="checkbox" v-model="payload.OutgoingPasswordSameAsIncomingPassword">/&gt;
+        <h2>Inner common keys</h2>
+        <div class="form-row">
+            <label for="top-display">Payload display name</label>
+            <input id="inner-display" type="text" v-model="payload.PayloadDisplayName" v-bind:placeholder="payloadPlaceholders.PayloadDisplayName">
+        </div>
+        <div class="form-row">
+            <label for="inner-desc">Payload description</label>
+            <input id="inner-desc" type="text" v-model="payload.PayloadDescription" v-bind:placeholder="payloadPlaceholders.PayloadDescription">
+        </div>
+        <div class="form-row">
+            <label for="inner-id">Payload identifier</label>
+            <input id="inner-id" type="text" v-model="payload.PayloadIdentifier" v-bind:placeholder="payloadPlaceholders.PayloadIdentifier">
+        </div>
+        <div class="form-row">
+            <label for="inner-type">Payload type</label>
+            <span id="inner-type">{{ payload.PayloadType }}</span>
+        </div>
+        <div class="form-row">
+            <label for="inner-uuid">Payload UUID</label>
+            <span id="inner-uuid">{{ payload.PayloadUUID() }}</span>
+        </div>
+        <div class="form-row">
+            <label for="inner-version">Payload version</label>
+            <span id="inner-version">{{ payload.PayloadVersion }}</span>
+        </div>
 
-                    &lt;!-- Common keys --&gt;
-                    &lt;key&gt;<strong>PayloadDisplayName</strong>&lt;/key&gt;
-                    &lt;string&gt;<input type="text" v-model="payload.PayloadDisplayName" v-bind:placeholder="payloadPlaceholders.PayloadDisplayName">&lt;/string&gt;
-                    &lt;key&gt;<strong>PayloadDescription</strong>&lt;/key&gt;
-                    &lt;string&gt;<input type="text" v-model="payload.PayloadDescription" v-bind:placeholder="payloadPlaceholders.PayloadDescription">&lt;/string&gt;
-                    &lt;key&gt;<strong>PayloadIdentifier</strong>&lt;/key&gt;
-                    &lt;string&gt;<input type="text" v-model="payload.PayloadIdentifier" v-bind:placeholder="payloadPlaceholders.PayloadIdentifier">&lt;/string&gt;
-                    &lt;key&gt;<strong>PayloadType</strong>&lt;/key&gt;
-                    &lt;string&gt;{{ payload.PayloadType }}&lt;/string&gt;
-                    &lt;key&gt;<strong>PayloadUUID</strong>&lt;/key&gt;
-                    &lt;string&gt;{{ payload.PayloadUUID() }}&lt;/string&gt;
-                    &lt;key&gt;<strong>PayloadVersion</strong>&lt;/key&gt;
-                    &lt;integer&gt;{{ payload.PayloadVersion }}&lt;/integer&gt;
-                &lt;/dict&gt;
-            &lt;/array&gt;
-
-            &lt;!-- Common keys --&gt;
-            &lt;key&gt;<strong>PayloadDisplayName</strong>&lt;/key&gt;
-            &lt;string&gt;<input type="text" v-model="container.PayloadDisplayName" v-bind:placeholder="containerPlaceholders.PayloadDisplayName">&lt;/string&gt;
-            &lt;key&gt;<strong>PayloadDescription</strong>&lt;/key&gt;
-            &lt;string&gt;<input type="text" v-model="container.PayloadDescription" v-bind:placeholder="containerPlaceholders.PayloadDescription">&lt;/string&gt;
-            &lt;key&gt;<strong>PayloadIdentifier</strong>&lt;/key&gt;
-            &lt;string&gt;<input type="text" v-model="container.PayloadIdentifier" v-bind:placeholder="containerPlaceholders.PayloadIdentifier">&lt;/string&gt;
-            &lt;key&gt;<strong>PayloadType</strong>&lt;/key&gt;
-            &lt;string&gt;{{ container.PayloadType }}&lt;/string&gt;
-            &lt;key&gt;<strong>PayloadUUID</strong>&lt;/key&gt;
-            &lt;string&gt;{{ container.PayloadUUID() }}&lt;/string&gt;
-            &lt;key&gt;<strong>PayloadVersion</strong>&lt;/key&gt;
-            &lt;integer&gt;{{ container.PayloadVersion }}&lt;/integer&gt;
-        &lt;/dict&gt;
-    &lt;/plist&gt;
+        <h2>Top level common keys</h2>
+        <div class="form-row">
+            <label for="top-display">Payload display name</label>
+            <input id="top-display" type="text" v-model="container.PayloadDisplayName" v-bind:placeholder="containerPlaceholders.PayloadDisplayName">
+        </div>
+        <div class="form-row">
+            <label for="top-desc">Payload description</label>
+            <input id="top-desc" type="text" v-model="container.PayloadDescription" v-bind:placeholder="containerPlaceholders.PayloadDescription">
+        </div>
+        <div class="form-row">
+            <label for="top-id">Payload identifier</label>
+            <input id="top-id" type="text" v-model="container.PayloadIdentifier" v-bind:placeholder="containerPlaceholders.PayloadIdentifier">
+        </div>
+        <div class="form-row">
+            <label for="top-type">Payload type</label>
+            <span id="top-type">{{ container.PayloadType }}</span>
+        </div>
+        <div class="form-row">
+            <label for="top-uuid">Payload UUID</label>
+            <span id="top-uuid">{{ container.PayloadUUID() }}</span>
+        </div>
+        <div class="form-row">
+            <label for="top-version">Payload version</label>
+            <span id="top-version">{{ container.PayloadVersion }}</span>
+        </div>
     </div>
 
     <h1>2. Download your profile</h1>

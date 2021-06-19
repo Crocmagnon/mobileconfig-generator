@@ -9,12 +9,3 @@ body {
     color: var(--main-color);
     background-color: var(--background-color);
 }
-
-#profile {
-    white-space: pre-wrap;
-    color: var(--light-color);
-}
-
-#profile strong {
-    color: var(--main-color);
-}
